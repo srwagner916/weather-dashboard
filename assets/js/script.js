@@ -82,7 +82,7 @@ var fiveDayForecast = function(data){
       <ul>
         <li>Temp: ${data.daily[i].temp.day}&degF</li>
         <li>Wind: ${data.daily[i].wind_speed} MPH</li>
-        <li>Humidity: ${data.daily[i].humidity}%</li>
+        <li>Humidity: ${data.daily[i].humidity} %</li>
       </ul>
       `)
     .appendTo(fiveDayCardDeck);
