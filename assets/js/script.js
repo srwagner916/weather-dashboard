@@ -3,22 +3,28 @@ var apiKey = "89893227e2cfb5edad9b90f12127f1ef"
 var recentCitiesArr = [];
 
 var loadRecentCities = function(){
-  recentCitiesArr.push(localStorage.getItem(JSON.parse('city')));
-  for (var i=0; i<recentCities.length; i++){
+  var retrievedCities = localStorage.getItem("city");
+  citiesArr = JSON.parse(retrievedCities);
+  for (var i=0; i<citiesArr.length; i++){
     $('<button>')
     .attr('class', 'btn')
     .attr('class', 'btn-secondary')
     .attr('type', 'button')
     .attr('class', 'btn-block')
-    .html(recentCities[i])
-    .appendTo('#city-search-col');
+    .attr('id', citiesArr[i])
+    .html(citiesArr[i])
+    .appendTo('#recent-cities-btns');
   }
 };
 
 loadRecentCities();
 
-var getWeather = function(){
+var getWeather = function(cityName){
+  if ($('#search-city').val()){
   var city = $('#search-city').val();
+  } else {
+    var city = cityName
+  }
   // fetch call to get coordinates
   fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
     .then(function(coordResponse){
@@ -42,6 +48,11 @@ var getWeather = function(){
         });
     });
 };
+
+var getRecentCitiesWeather = function(cityName){
+  var city = cityName;
+  console.log(city);
+}
 
 var displayTodayWeather = function(data){
   var today = dayjs().format('MM/DD/YYYY');
@@ -118,8 +129,14 @@ $('#search-city-form').submit(function(event){
       .attr('type', 'button')
       .attr('class', 'btn-block')
       .html($('#search-city').val())
-      .appendTo('#city-search-col');
+      .appendTo('#recent-cities-btns');
   
   event.preventDefault();
 });
 
+// recent cities event listener
+$('#recent-cities-btns').on('click', 'button', function(){
+  var cityName = $(this).attr('id');
+  console.log(cityName);
+  getWeather(cityName);
+})
