@@ -33,6 +33,9 @@ var displayTodayWeather = function(data){
   var wind = data.current.wind_speed;
   var humidity = data.current.humidity;
   var uv = data.current.uvi;
+  var weatherInfoContainer = $('#weatherInfoContainer');
+  // clear weatherInfoContainer before displaying new search
+  weatherInfoContainer.empty();
    // create an h2 element for city and date
   $('<h2>')
   .html($('#search-city').val() + ` (${today}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'>`)
@@ -40,9 +43,9 @@ var displayTodayWeather = function(data){
   // create a and display a list of weather info
   $('<ul>')
     .html(`
-      <li>Temp: ${temp}</li>
-      <li>Wind: ${wind}</li>
-      <li>Humidity: ${humidity}</li>
+      <li>Temp: ${temp}&degF</li>
+      <li>Wind: ${wind} MPH</li>
+      <li>Humidity: ${humidity} %</li>
       <li>UV Index: ${uv}</li>
     `)
     .appendTo($('#weatherInfoContainer'));
@@ -52,33 +55,38 @@ var fiveDayForecast = function(data){
   // create elements for five day forecast
   var fiveDayForecast = $('#five-day-forecast')
   var fiveDayHeading = $('<h2>');
-  // date variables
-  var day1 = dayjs().add(1, 'day').format('MM/DD/YYYY');
-  var day2 = dayjs().add(2, 'day').format('MM/DD/YYYY');
-  var day3 = dayjs().add(3, 'day').format('MM/DD/YYYY');
-  var day3 = dayjs().add(4, 'day').format('MM/DD/YYYY');
-  var day5 = dayjs().add(5, 'day').format('MM/DD/YYYY');
-  //card variables
+  var fiveDayCardDeck = $('<div>');
+  // set fiveday forecast cards to variables
+  var day0Card = $('<div>').attr('class', 'card');
   var day1Card = $('<div>').attr('class', 'card');
   var day2Card = $('<div>').attr('class', 'card');
   var day3Card = $('<div>').attr('class', 'card');
   var day4Card = $('<div>').attr('class', 'card');
-  var day5Card = $('<div>').attr('class', 'card');
-  // add information
+  // create an array of day cards
+  var dayCards = [day0Card, day1Card, day2Card, day3Card, day4Card];
+  // clear forecasts before displaying newly searched city
+  fiveDayForecast.empty();
   fiveDayHeading.html('Five Day Forecast:')
+  .appendTo(fiveDayForecast)
+  // card deck to append cards to
+  fiveDayCardDeck
+    .attr('class', 'card-deck')
     .appendTo(fiveDayForecast);
-  $('<div>')
-    .attr('class', 'card-body')
-    .html(`
-      <h3>${day1}</h3>
-      <img src='http://openweathermap.org/img/wn/${data.daily[1].weather[0].icon}@2x.png'>
+  // loop through dayCards array to display weather data
+  for(var i=0; i<dayCards.length; i++){
+    $('<div>')
+      .attr('class', 'card-body')
+      .html(`
+      <h3>${dayjs().add([i+1], 'day').format('MM/DD/YYYY')}</h3>
+      <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
       <ul>
-        <li>Temp: ${data.daily[1].temp.day}</li>
-        <li>Wind: ${data.daily[1].wind_speed}</li>
-        <li>Humidity: ${data.daily[1].humidity}</li>
+        <li>Temp: ${data.daily[i].temp.day}&degF</li>
+        <li>Wind: ${data.daily[i].wind_speed} MPH</li>
+        <li>Humidity: ${data.daily[i].humidity}%</li>
       </ul>
       `)
-    .appendTo(fiveDayForecast);
+    .appendTo(fiveDayCardDeck);
+  }
 };
 
 //submit event listener
