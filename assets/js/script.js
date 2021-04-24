@@ -1,10 +1,5 @@
 var apiKey = "89893227e2cfb5edad9b90f12127f1ef"
-
 var recentCitiesArr = JSON.parse(localStorage.getItem('cities') || '[]');
-
-console.log(recentCitiesArr)
-
-
 
 var getWeather = function(cityName){
   if ($('#search-city').val()){
@@ -18,7 +13,6 @@ var getWeather = function(cityName){
     return coordResponse.json();
   })
   .then(function(coordData){
-    console.log(coordData);
     // assign lat and lon values to variables
     var lat = coordData[0].lat;
     var lon = coordData[0].lon;
@@ -29,16 +23,14 @@ var getWeather = function(cityName){
       return weatherResponse.json();
     })
     .then(function(weatherData){
-      console.log(weatherData);
       displayTodayWeather(weatherData);
       fiveDayForecast(weatherData);
-        });
-      });
-    };
+    });
+  });
+};
     
     var displayTodayWeather = function(data){
       var today = dayjs().format('MM/DD/YYYY');
-      console.log(today);
       var temp = data.current.temp;
       var wind = data.current.wind_speed;
       var humidity = data.current.humidity;
@@ -107,43 +99,33 @@ var getWeather = function(cityName){
     $('#search-city-form').submit(function(event){
       // fetch call to get coordinates
       getWeather();
-      recentCitiesArr.push($('#search-city').val());
-      localStorage.setItem('cities', JSON.stringify(recentCitiesArr));
-      $('<button>')
-      .attr('class', 'btn')
-      .attr('class', 'btn-secondary')
-      .attr('type', 'button')
-      .attr('class', 'btn-block')
-      .html($('#search-city').val())
-      .appendTo('#recent-cities-btns');
-      
+      if (recentCitiesArr.includes($('#search-city').val())){
+        $('#search-city').val('');
+        return false;
+      } else{
+        recentCitiesArr.push($('#search-city').val());
+        localStorage.setItem('cities', JSON.stringify(recentCitiesArr));
+        $('<button>')
+        .attr('class', 'btn')
+        .attr('class', 'btn-secondary')
+        .attr('type', 'button')
+        .attr('class', 'btn-block')
+        .html($('#search-city').val())
+        .appendTo('#recent-cities-btns');
+      }
+      $('#search-city').val('');
       event.preventDefault();
     });
 
-    //create recent cities buttons
-    var recentCitiesBtns = function(savedCities){
-      $('<button>')
-      .attr('class', 'btn')
-      .attr('class', 'btn-secondary')
-      .attr('type', 'button')
-      .attr('class', 'btn-block')
-      .attr('id', savedCities[i])
-      .html(savedCities[i])
-      .appendTo('#recent-cities-btns');
-    }
-    
-
     // recent cities event listener
-    $('#recent-cities-btns').on('click', 'button', function(){
+    $('#recent-cities-btns').delegate('button', 'click', function(){
       var cityName = $(this).attr('id');
-      console.log(cityName);
       getWeather(cityName);
-    })
+    });
     
     var loadRecentCities = function(){
       var savedCities = localStorage.getItem('cities');
       var savedCities =JSON.parse(savedCities);
-      console.log(savedCities);
     
       if(!savedCities){
         return false;
@@ -163,11 +145,3 @@ var getWeather = function(cityName){
     
     loadRecentCities();
 
-    // $('<button>')
-    // .attr('class', 'btn')
-    // .attr('class', 'btn-secondary')
-    // .attr('type', 'button')
-    // .attr('class', 'btn-block')
-    // .attr('id', savedCities[i])
-    // .html(savedCities[i])
-    // .appendTo('#recent-cities-btns');
