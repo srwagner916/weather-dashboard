@@ -1,5 +1,22 @@
 var apiKey = "89893227e2cfb5edad9b90f12127f1ef"
 
+var recentCitiesArr = [];
+
+var loadRecentCities = function(){
+  recentCitiesArr.push(localStorage.getItem(JSON.parse('city')));
+  for (var i=0; i<recentCities.length; i++){
+    $('<button>')
+    .attr('class', 'btn')
+    .attr('class', 'btn-secondary')
+    .attr('type', 'button')
+    .attr('class', 'btn-block')
+    .html(recentCities[i])
+    .appendTo('#city-search-col');
+  }
+};
+
+loadRecentCities();
+
 var getWeather = function(){
   var city = $('#search-city').val();
   // fetch call to get coordinates
@@ -93,6 +110,16 @@ var fiveDayForecast = function(data){
 $('#search-city-form').submit(function(event){
   // fetch call to get coordinates
   getWeather();
+  recentCitiesArr.push($('#search-city').val());
+  localStorage.setItem('city', JSON.stringify(recentCitiesArr));
+    $('<button>')
+      .attr('class', 'btn')
+      .attr('class', 'btn-secondary')
+      .attr('type', 'button')
+      .attr('class', 'btn-block')
+      .html($('#search-city').val())
+      .appendTo('#city-search-col');
+  
   event.preventDefault();
 });
 
