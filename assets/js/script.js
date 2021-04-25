@@ -48,7 +48,7 @@ var getWeather = function(cityName){
       // create an h2 element for city and date
       weatherInfoContainer.attr('class', 'border border-dark p-4 my-4');
       $('<h2>')
-      .html(`${city} (${today}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'>`)
+      .html(`${city} (${today}) <img src='https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'>`)
       .appendTo($('#weatherInfoContainer'));
       // create a and display a list of weather info
       $('<ul>')
@@ -96,7 +96,7 @@ var getWeather = function(cityName){
         .attr('class', 'card-body bg-info text-light')
         .html(`
         <h3>${dayjs().add([i+1], 'day').format('MM/DD/YYYY')}</h3>
-        <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
+        <img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
         <ul class="list-unstyled">
         <li>Temp: ${data.daily[i].temp.day}&degF</li>
         <li>Wind: ${data.daily[i].wind_speed} MPH</li>
