@@ -8,7 +8,7 @@ var getWeather = function(cityName){
     var city = cityName
   }
   // fetch call to get coordinates
-  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
+  fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
   .then(function(coordResponse){
     return coordResponse.json();
   })
