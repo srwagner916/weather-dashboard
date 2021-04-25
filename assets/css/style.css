@@ -1,3 +1,7 @@
 body {
   line-height: 2;
 }
+
+hr {
+  border-top: 3px solid gray;
+}

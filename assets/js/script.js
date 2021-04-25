@@ -148,7 +148,7 @@ var getWeather = function(cityName){
       } else {
         for (var i=0; i<savedCities.length; i++){
           $('<button>')
-            .attr('class', 'btn btn-secondary btn-block')
+            .attr('class', 'btn btn-secondary btn-block text-light')
             .attr('type', 'button')
             .attr('id', savedCities[i])
             .html(savedCities[i])
