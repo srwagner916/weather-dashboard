@@ -10,8 +10,8 @@
 
 <body>
   <header>
-    <nav class="nav bg-primary justify-content-center">
-      <h1>Weather Dashboard</h1>
+    <nav class="nav bg-primary justify-content-center py-2">
+      <h1 class="text-light">Weather Dashboard</h1>
     </nav>
   </header>
 
@@ -20,11 +20,13 @@
     <!-- form -->
     <div class="row align-self-start">
       <div class="col-2" id="city-search-col">
-        <h2>Search a City:</h2>
-        <form id="search-city-form">
-          <input type="text" id="search-city" name="search-city">
-          <input type="submit" value="Search City" class="btn btn-primary btn-block">
-        </form>
+        <div class="form-group">
+          <h2>Search a City:</h2>
+          <form id="search-city-form">
+            <input class="form-control-lg w-100" type="text" id="search-city" name="search-city">
+            <button type="submit" value="Search City" class="btn btn-primary btn-block mt-3">Search City</button>
+          </form>
+        </div>
         <hr>
         <!-- recent cities buttons group -->
         <div id="recent-cities-btns">

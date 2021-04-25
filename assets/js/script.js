@@ -23,34 +23,50 @@ var getWeather = function(cityName){
       return weatherResponse.json();
     })
     .then(function(weatherData){
-      displayTodayWeather(weatherData);
+      displayTodayWeather(weatherData, cityName, city);
       fiveDayForecast(weatherData);
     });
   });
 };
     
-    var displayTodayWeather = function(data){
+    var displayTodayWeather = function(data, cityName, searchedCity){
       var today = dayjs().format('MM/DD/YYYY');
       var temp = data.current.temp;
       var wind = data.current.wind_speed;
       var humidity = data.current.humidity;
       var uv = data.current.uvi;
+    
+      if(cityName){
+        var city = cityName;
+      } else {
+        var city = searchedCity;
+      }
+  
       var weatherInfoContainer = $('#weatherInfoContainer');
       // clear weatherInfoContainer before displaying new search
       weatherInfoContainer.empty();
       // create an h2 element for city and date
+      weatherInfoContainer.attr('class', 'border border-dark p-4 my-4');
       $('<h2>')
-      .html($('#search-city').val() + ` (${today}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'>`)
+      .html(`${city} (${today}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'>`)
       .appendTo($('#weatherInfoContainer'));
       // create a and display a list of weather info
       $('<ul>')
+      .attr('class', 'list-unstyled')
       .html(`
       <li>Temp: ${temp}&degF</li>
       <li>Wind: ${wind} MPH</li>
       <li>Humidity: ${humidity} %</li>
-      <li>UV Index: ${uv}</li>
+      <li>UV Index: <span id=uviContainer>${uv}</span></li>
       `)
       .appendTo($('#weatherInfoContainer'));
+      if(uv <=2){
+          $('#uviContainer').attr('class', 'bg-success text-light p-1 rounded');
+      } else if(uv >=3 && uv <= 5){
+          $('#uviContainer').attr('class', 'bg-warning text-light p-1 rounded');
+      } else if(uv >=6){
+          $('#uviContainer').attr('class', 'bg-danger text-light p-1 rounded');
+      }
     };
     
     var fiveDayForecast = function(data){
@@ -77,17 +93,18 @@ var getWeather = function(cityName){
       // loop through dayCards array to display weather data
       for(var i=0; i<dayCards.length; i++){
         $('<div>')
-        .attr('class', 'card-body')
+        .attr('class', 'card-body bg-info text-light')
         .html(`
         <h3>${dayjs().add([i+1], 'day').format('MM/DD/YYYY')}</h3>
         <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
-        <ul>
+        <ul class="list-unstyled">
         <li>Temp: ${data.daily[i].temp.day}&degF</li>
         <li>Wind: ${data.daily[i].wind_speed} MPH</li>
         <li>Humidity: ${data.daily[i].humidity} %</li>
         </ul>
         `)
-        .appendTo(fiveDayCardDeck);
+        .appendTo(dayCards[i]);
+        dayCards[i].appendTo(fiveDayCardDeck);
       }
     };
     
@@ -106,10 +123,9 @@ var getWeather = function(cityName){
         recentCitiesArr.push($('#search-city').val());
         localStorage.setItem('cities', JSON.stringify(recentCitiesArr));
         $('<button>')
-        .attr('class', 'btn')
-        .attr('class', 'btn-secondary')
+        .attr('class', 'btn btn-secondary btn-block')
         .attr('type', 'button')
-        .attr('class', 'btn-block')
+        .attr('id', $('#search-city').val())
         .html($('#search-city').val())
         .appendTo('#recent-cities-btns');
       }
@@ -132,10 +148,8 @@ var getWeather = function(cityName){
       } else {
         for (var i=0; i<savedCities.length; i++){
           $('<button>')
-            .attr('class', 'btn')
-            .attr('class', 'btn-secondary')
+            .attr('class', 'btn btn-secondary btn-block')
             .attr('type', 'button')
-            .attr('class', 'btn-block')
             .attr('id', savedCities[i])
             .html(savedCities[i])
             .appendTo('#recent-cities-btns');
