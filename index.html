@@ -6,12 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Biryani:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
   <header>
-    <nav class="nav bg-primary justify-content-center py-2">
+    <nav class="nav bg-primary justify-content-center pt-3 pb-2">
       <h1 class="text-light">Weather Dashboard</h1>
     </nav>
   </header>
@@ -22,7 +24,7 @@
     <div class="row align-self-start">
       <div class="col-2" id="city-search-col">
         <div class="form-group">
-          <h2>Search a City:</h2>
+          <h2 class="mt-2">Search a City:</h2>
           <form id="search-city-form">
             <input class="form-control-lg w-100" type="text" id="search-city" name="search-city">
             <button type="submit" value="Search City" class="btn btn-primary btn-block mt-3">Search City</button>
