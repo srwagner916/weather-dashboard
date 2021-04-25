@@ -60,9 +60,9 @@ var getWeather = function(cityName){
       <li>UV Index: <span id=uviContainer>${uv}</span></li>
       `)
       .appendTo($('#weatherInfoContainer'));
-      if(uv <=2){
+      if(Math.floor(uv) <=2){
           $('#uviContainer').attr('class', 'bg-success text-light p-1 rounded');
-      } else if(uv >=3 && uv <= 5){
+      } else if(Math.floor(uv) >=3 && Math.floor(uv) <= 5){
           $('#uviContainer').attr('class', 'bg-warning text-light p-1 rounded');
       } else if(uv >=6){
           $('#uviContainer').attr('class', 'bg-danger text-light p-1 rounded');
