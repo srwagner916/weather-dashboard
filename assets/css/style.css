@@ -1,0 +1,8 @@
+body {
+  line-height: 2;
+  font-family: 'Biryani', sans-serif;
+}
+
+hr {
+  border-top: 3px solid gray;
+}
