@@ -25,7 +25,7 @@ When the user submits a city for search it is then displayed in a list of recent
 
 ## Links
 ### Deployed Application
-
+[srwagner916.github.io/weather-dashboard](https://srwagner916.github.io/weather-dashboard/)
 ### GitHub Repository
 [github.com/srwagner916/weather-dashboard](https://github.com/srwagner916/weather-dashboard)
 
